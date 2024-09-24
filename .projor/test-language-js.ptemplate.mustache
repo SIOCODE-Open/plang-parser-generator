@@ -1,0 +1,17 @@
+{
+    "forEach": "languages",
+    "filename": "test/test-{{kebabCase name}}.js",
+    "formatUsing": "babel"
+}
+---
+const { parse } = require('../src/{{kebabCase name}}.parser');
+const fs = require('fs');
+const path = require('path');
+
+const examplePath = path.join(__dirname, '../examples/test{{extension}}');
+const testContent = fs.readFileSync(examplePath, 'utf8');
+const parsedContent = parse(testContent);
+
+console.log(
+    JSON.stringify(parsedContent, null, 4)
+);

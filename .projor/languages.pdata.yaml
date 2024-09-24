@@ -1,0 +1,105 @@
+id: languages
+name: Languages
+description: The languages
+schema: Language
+objects:
+  - name: PagesLang
+    description: Language describing pages in an admin site
+    extension: '.pages'
+    topLevelElements:
+      - name: dashboard_block
+        type: block
+        keyword: dashboard
+        content:
+          - name: title
+            type: property
+            keyword: title
+          - name: message
+            type: property
+            keyword: message
+          - name: pre_action
+            type: declaration
+            keyword: pre action
+            postkeyword: goes to
+          - name: post_action
+            type: declaration
+            keyword: post action
+            postkeyword: goes to
+          - name: stat_widget
+            type: block
+            keyword: stat widget
+          - name: message_widget
+            type: block
+            keyword: msg widget
+          - name: list_widget
+            type: block
+            keyword: list widget
+            content:
+              - name: item
+                type: property
+                keyword: item
+      - name: list_page_block
+        type: block
+        keyword: list_page
+        content:
+          - name: title
+            type: property
+            keyword: title
+          - name: message
+            type: property
+            keyword: message
+          - name: column
+            type: typed-declaration
+            keyword: column
+            postkeyword: example
+          - name: pre_action
+            type: declaration
+            keyword: pre action
+            postkeyword: goes to
+          - name: post_action
+            type: declaration
+            keyword: post action
+            postkeyword: goes to
+          - name: item_action
+            type: declaration
+            keyword: item action
+            postkeyword: goes to
+      - name: edit_page_block
+        type: block
+        keyword: edit_page
+        content:
+          - name: title
+            type: property
+            keyword: title
+          - name: message
+            type: property
+            keyword: message
+          - name: field
+            type: typed-declaration
+            keyword: field
+            postkeyword: example
+          - name: pre_action
+            type: declaration
+            keyword: pre action
+            postkeyword: goes to
+          - name: post_action
+            type: declaration
+            keyword: post action
+            postkeyword: goes to
+  - name: EntityLang
+    description: Language describing entities for a CRUD API
+    extension: '.entities'
+    topLevelElements:
+      - name: entity
+        type: block
+        keyword: entity
+        content:
+          - name: attribute
+            type: typed-declaration
+            keyword: col
+          - name: association
+            type: typed-declaration
+            keyword: join
+          - name: reverse_association
+            type: typed-declaration
+            keyword: reverse join

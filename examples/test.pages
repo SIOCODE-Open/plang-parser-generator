@@ -1,0 +1,66 @@
+// The admin dashboard page
+dashboard Dashboard[ic:baseline-dashboard] {
+    title Admin dashboard
+    message This is the admin dashboard. It is left empty for this example.
+    stat widget 24H Revenue[$1,000,000] { }
+    post action Open Products[ic:baseline-shopping-cart] goes to Products
+}
+// The list of products page
+list_page Products[ic:baseline-shopping-cart] {
+    title Products
+    message This is the list of products. You can edit or delete them.
+    // The unique identifier for each product
+    column id: number example 465191de-2108-4dc0-ac81-d3d53f2176e1
+
+    column name: string example Vacuum Cleaner
+
+    // The description of the product
+    column description: string example This device will suck the dust from the floor to make it cleaner.
+
+    // The number of buys in the last week
+    column buys_last_week: number example 57
+
+    // The price of the product
+    column price: string example $99.99
+
+    // Allow the user to navigate to the EditProduct page
+    item action Edit[ic:baseline-edit] goes to EditProduct
+    item action Delete[ic:baseline-delete] goes to Products
+    pre action Create[ic:baseline-add] goes to CreateProduct
+    post action Open Dashboard[ic:baseline-dashboard] goes to Dashboard
+}
+edit_page EditProduct[ic:baseline-edit]<unlisted> {
+    title Edit Vacuum Cleaner
+    message You are editing product 465191de-2108-4dc0-ac81-d3d53f2176e1 called Vacuum Cleaner.
+
+    // The name of the product
+    field name: string example Vacuum Cleaner
+
+    field description: string example This device will suck the dust from the floor to make it cleaner.
+
+    // The price of the product
+    field price: string example $99.99
+
+    // Cancel goes back to the Products page
+    post action Cancel[ic:baseline-cancel] goes to Products
+    // Save goes back to the Products page
+    post action Save[ic:baseline-save] goes to Products
+    post action Delete[ic:baseline-delete] goes to Products
+}
+edit_page CreateProduct[ic:baseline-add]<unlisted> {
+    title Create Product
+    message You are creating a new product.
+
+    // The name of the product
+    field nameOfNewProduct: string example Vacuum Cleaner
+
+    field descriptionOfNewProduct: string example This device will suck the dust from the floor to make it cleaner.
+
+    // The price of the product
+    field priceOfNewProduct: string example $99.99
+
+    // Cancel goes back to the Products page
+    post action Cancel[ic:baseline-cancel] goes to Products
+    // Save goes back to the Products page
+    post action Save[ic:baseline-save] goes to Products
+}

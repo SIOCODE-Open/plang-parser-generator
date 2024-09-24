@@ -1,0 +1,13 @@
+// An employee
+entity Employee {
+    col first_name: String
+    col last_name: String
+    // Org unit of employee
+    join org_unit: OrganizationUnit
+}
+
+entity OrganizationUnit {
+    col name: String
+    // Employees in the org unit
+    reverse join employees: List<Employee>(org_unit)
+}

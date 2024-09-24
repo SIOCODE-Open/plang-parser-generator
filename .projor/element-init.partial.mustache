@@ -1,0 +1,22 @@
+{
+    type: '{{type}}',
+    name: '{{name}}',
+    keyword: '{{keyword}}',
+    {{#if (equals element.type 'block')}}
+    content: [
+        {{#each element.content}}
+        {{> element-init element=this }},
+        {{/each}}
+    ],
+    {{/if}}
+    {{#if (equals element.type 'typed-declaration')}}
+    {{#if element.postkeyword}}
+    postkeyword: '{{element.postkeyword}}',
+    {{/if}}
+    {{/if}}
+    {{#if (equals element.type 'declaration')}}
+    {{#if element.postkeyword}}
+    postkeyword: '{{element.postkeyword}}',
+    {{/if}}
+    {{/if}}
+}

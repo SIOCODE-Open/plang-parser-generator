@@ -1,0 +1,12 @@
+id: Language
+name: Language
+description: A language
+fields:
+  - name: topLevelElements
+    description: The top-level elements of the language
+    type: attachment
+    references: Element
+    multiple: true
+  - name: extension
+    description: The file extension for the language
+    type: string

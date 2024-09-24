@@ -1,0 +1,18 @@
+{
+    "map": {
+        "languages": "languages"
+    },
+    "filename": "README.md"
+}
+---
+# The Parser Generator
+
+This repository contains source code for a [ProJor](https://projor.io) template, that can be used to generate _parsers_ for certain languages. These parsers can be used with the [ProJor Languages](https://docs.projor.io/overview/languages.html) feature, to allow for _compact_ and _readable_ representation of a domain model.
+
+Language definitions are stored in the [`.projor/languages.pdata.yaml`](.projor/languages.pdata.yaml) file. Parsers for the following languages are generated:
+
+| Name | Description | Parser file | Example file |
+| --- | --- | --- | --- |
+{{#each languages}}
+| {{name}} | {{description}} | [{{kebabCase name}}.parser.js](src/{{kebabCase name}}.parser.js) | [test{{extension}}](examples/test{{extension}}) |
+{{/each}}

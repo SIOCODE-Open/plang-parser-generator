@@ -1,0 +1,21 @@
+id: Element
+name: Element
+description: A language element
+fields:
+  - name: type
+    description: The type of the language element
+    type: enum
+    enum: [block, property, typed-declaration, declaration]
+    required: true
+  - name: keyword
+    description: The keyword of the language element
+    type: string
+    required: true
+  - name: postkeyword
+    description: The post-keyword of the language element (in case of some types)
+    type: string
+  - name: content
+    description: The content of the language element (in case of block)
+    type: attachment
+    multiple: true
+    references: Element
