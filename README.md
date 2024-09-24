@@ -8,3 +8,9 @@ Language definitions are stored in the [`.projor/languages.pdata.yaml`](.projor/
 | --- | --- | --- | --- |
 | PagesLang | Language describing pages in an admin site | [pages-lang.parser.js](src/pages-lang.parser.js) | [test.pages](examples/test.pages) |
 | EntityLang | Language describing entities for a CRUD API | [entity-lang.parser.js](src/entity-lang.parser.js) | [test.entities](examples/test.entities) |
+
+# License
+
+The contents of this repository are licensed under [MIT](./LICENSE.md).
+
+[ProJor](https://projor.io) is a product by [SIOCODE](https://siocode.hu), and it is licensed under the [ProJor Free License](https://license.projor.io), or the [ProJor Commercial License](https://license.projor.io).
