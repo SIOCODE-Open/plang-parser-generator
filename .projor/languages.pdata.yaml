@@ -5,7 +5,7 @@ schema: Language
 objects:
   - name: PagesLang
     description: Language describing pages in an admin site
-    extension: '.pages'
+    extension: ".pages"
     topLevelElements:
       - name: dashboard_block
         type: block
@@ -88,7 +88,7 @@ objects:
             postkeyword: goes to
   - name: EntityLang
     description: Language describing entities for a CRUD API
-    extension: '.entities'
+    extension: ".entities"
     topLevelElements:
       - name: entity
         type: block
@@ -103,3 +103,23 @@ objects:
           - name: reverse_association
             type: typed-declaration
             keyword: reverse join
+
+  - name: ServicesLang
+    description: Language describing services in a Service Oriented Architecture
+    extension: ".services"
+    topLevelElements:
+      - name: dto
+        type: block
+        keyword: dto
+        content:
+          - name: field
+            type: typed-declaration
+            keyword: \\+
+      - name: service
+        type: block
+        keyword: service
+        content:
+          - name: operation
+            type: declaration
+            keyword: \\+
+            postkeyword: ->

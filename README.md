@@ -8,6 +8,7 @@ Language definitions are stored in the [`.projor/languages.pdata.yaml`](.projor/
 | --- | --- | --- | --- |
 | PagesLang | Language describing pages in an admin site | [pages-lang.parser.js](src/pages-lang.parser.js) | [test.pages](examples/test.pages) |
 | EntityLang | Language describing entities for a CRUD API | [entity-lang.parser.js](src/entity-lang.parser.js) | [test.entities](examples/test.entities) |
+| ServicesLang | Language describing services in a Service Oriented Architecture | [services-lang.parser.js](src/services-lang.parser.js) | [test.services](examples/test.services) |
 
 # License
 

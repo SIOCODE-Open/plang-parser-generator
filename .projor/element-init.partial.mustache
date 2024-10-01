@@ -1,7 +1,7 @@
 {
     type: '{{type}}',
     name: '{{name}}',
-    keyword: '{{keyword}}',
+    keyword: '{{{keyword}}}',
     {{#if (equals element.type 'block')}}
     content: [
         {{#each element.content}}
@@ -11,12 +11,12 @@
     {{/if}}
     {{#if (equals element.type 'typed-declaration')}}
     {{#if element.postkeyword}}
-    postkeyword: '{{element.postkeyword}}',
+    postkeyword: '{{{element.postkeyword}}}',
     {{/if}}
     {{/if}}
     {{#if (equals element.type 'declaration')}}
     {{#if element.postkeyword}}
-    postkeyword: '{{element.postkeyword}}',
+    postkeyword: '{{{element.postkeyword}}}',
     {{/if}}
     {{/if}}
 }

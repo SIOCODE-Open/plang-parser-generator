@@ -1,130 +1,26 @@
 const TOP_LEVEL_ELEMENTS = [
     {
         type: "block",
-        name: "dashboard_block",
-        keyword: "dashboard",
+        name: "dto",
+        keyword: "dto",
         content: [
-            {
-                type: "property",
-                name: "title",
-                keyword: "title",
-            },
-            {
-                type: "property",
-                name: "message",
-                keyword: "message",
-            },
-            {
-                type: "declaration",
-                name: "pre_action",
-                keyword: "pre action",
-                postkeyword: "goes to",
-            },
-            {
-                type: "declaration",
-                name: "post_action",
-                keyword: "post action",
-                postkeyword: "goes to",
-            },
-            {
-                type: "block",
-                name: "stat_widget",
-                keyword: "stat widget",
-                content: [],
-            },
-            {
-                type: "block",
-                name: "message_widget",
-                keyword: "msg widget",
-                content: [],
-            },
-            {
-                type: "block",
-                name: "list_widget",
-                keyword: "list widget",
-                content: [
-                    {
-                        type: "property",
-                        name: "item",
-                        keyword: "item",
-                    },
-                ],
-            },
-        ],
-    },
-    {
-        type: "block",
-        name: "list_page_block",
-        keyword: "list_page",
-        content: [
-            {
-                type: "property",
-                name: "title",
-                keyword: "title",
-            },
-            {
-                type: "property",
-                name: "message",
-                keyword: "message",
-            },
-            {
-                type: "typed-declaration",
-                name: "column",
-                keyword: "column",
-                postkeyword: "example",
-            },
-            {
-                type: "declaration",
-                name: "pre_action",
-                keyword: "pre action",
-                postkeyword: "goes to",
-            },
-            {
-                type: "declaration",
-                name: "post_action",
-                keyword: "post action",
-                postkeyword: "goes to",
-            },
-            {
-                type: "declaration",
-                name: "item_action",
-                keyword: "item action",
-                postkeyword: "goes to",
-            },
-        ],
-    },
-    {
-        type: "block",
-        name: "edit_page_block",
-        keyword: "edit_page",
-        content: [
-            {
-                type: "property",
-                name: "title",
-                keyword: "title",
-            },
-            {
-                type: "property",
-                name: "message",
-                keyword: "message",
-            },
             {
                 type: "typed-declaration",
                 name: "field",
-                keyword: "field",
-                postkeyword: "example",
+                keyword: "\\+",
             },
+        ],
+    },
+    {
+        type: "block",
+        name: "service",
+        keyword: "service",
+        content: [
             {
                 type: "declaration",
-                name: "pre_action",
-                keyword: "pre action",
-                postkeyword: "goes to",
-            },
-            {
-                type: "declaration",
-                name: "post_action",
-                keyword: "post action",
-                postkeyword: "goes to",
+                name: "operation",
+                keyword: "\\+",
+                postkeyword: "->",
             },
         ],
     },
