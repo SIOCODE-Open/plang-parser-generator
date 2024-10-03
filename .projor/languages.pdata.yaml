@@ -123,3 +123,47 @@ objects:
             type: declaration
             keyword: \\+
             postkeyword: ->
+
+  - name: WebServicesLang
+    description: Language describing web services
+    extension: ".webservices"
+    topLevelElements:
+      - name: dto
+        type: block
+        keyword: dto
+        content:
+          - name: field
+            type: typed-declaration
+            keyword: \\+
+      - name: service
+        type: block
+        keyword: service
+        content:
+          - name: get_operation
+            type: declaration
+            keyword: GET
+            postkeyword: ->
+          - name: post_operation
+            type: declaration
+            keyword: POST
+            postkeyword: ->
+          - name: put_operation
+            type: declaration
+            keyword: PUT
+            postkeyword: ->
+          - name: delete_operation
+            type: declaration
+            keyword: DELETE
+            postkeyword: ->
+          - name: patch_operation
+            type: declaration
+            keyword: PATCH
+            postkeyword: ->
+          - name: head_operation
+            type: declaration
+            keyword: HEAD
+            postkeyword: ->
+          - name: options_operation
+            type: declaration
+            keyword: OPTIONS
+            postkeyword: ->

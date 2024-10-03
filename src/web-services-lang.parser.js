@@ -1,19 +1,70 @@
-{
-    "forEach": "languages",
-    "filename": "src/{{kebabCase name}}.parser.js",
-    "formatUsing": "babel"
-}
----
-
 const TOP_LEVEL_ELEMENTS = [
-    {{#each topLevelElements}}
-    {{> element-init element=this }},
-    {{/each}}
+    {
+        type: "block",
+        name: "dto",
+        keyword: "dto",
+        content: [
+            {
+                type: "typed-declaration",
+                name: "field",
+                keyword: "\\+",
+            },
+        ],
+    },
+    {
+        type: "block",
+        name: "service",
+        keyword: "service",
+        content: [
+            {
+                type: "declaration",
+                name: "get_operation",
+                keyword: "GET",
+                postkeyword: "->",
+            },
+            {
+                type: "declaration",
+                name: "post_operation",
+                keyword: "POST",
+                postkeyword: "->",
+            },
+            {
+                type: "declaration",
+                name: "put_operation",
+                keyword: "PUT",
+                postkeyword: "->",
+            },
+            {
+                type: "declaration",
+                name: "delete_operation",
+                keyword: "DELETE",
+                postkeyword: "->",
+            },
+            {
+                type: "declaration",
+                name: "patch_operation",
+                keyword: "PATCH",
+                postkeyword: "->",
+            },
+            {
+                type: "declaration",
+                name: "head_operation",
+                keyword: "HEAD",
+                postkeyword: "->",
+            },
+            {
+                type: "declaration",
+                name: "options_operation",
+                keyword: "OPTIONS",
+                postkeyword: "->",
+            },
+        ],
+    },
 ];
 
 // Helper functions
 function extractWithinBrackets(text, startIndex, openChar, closeChar) {
-    let content = '';
+    let content = "";
     let bracketCount = 0;
     let foundStart = false;
 
@@ -29,50 +80,93 @@ function extractWithinBrackets(text, startIndex, openChar, closeChar) {
             if (char === openChar) bracketCount++;
             if (char === closeChar) bracketCount--;
             if (bracketCount === 0) {
-                return { content: content.substring(0, content.length - 1).trim(), endIndex: i };
+                return {
+                    content: content.substring(0, content.length - 1).trim(),
+                    endIndex: i,
+                };
             }
         }
     }
     return null; // No matching closing bracket found
 }
 
-function extractExpressionDetails(inputText, currentIndex, currentLineEndIndex) {
-    let annotation = '';
-    let generic = '';
-    let arguments = '';
-    let nextSquareBracketIndex = inputText.indexOf('[', currentIndex);
-    let nextLessThanIndex = inputText.indexOf('<', currentIndex);
-    let nextOpenParenthesisIndex = inputText.indexOf('(', currentIndex);
+function extractExpressionDetails(
+    inputText,
+    currentIndex,
+    currentLineEndIndex
+) {
+    let annotation = "";
+    let generic = "";
+    let arguments = "";
+    let nextSquareBracketIndex = inputText.indexOf("[", currentIndex);
+    let nextLessThanIndex = inputText.indexOf("<", currentIndex);
+    let nextOpenParenthesisIndex = inputText.indexOf("(", currentIndex);
 
-    if (nextSquareBracketIndex !== -1
-        && (nextSquareBracketIndex < currentLineEndIndex || currentLineEndIndex === -1)
-        && (nextSquareBracketIndex < nextLessThanIndex || nextLessThanIndex === -1)
-        && (nextSquareBracketIndex < nextOpenParenthesisIndex || nextOpenParenthesisIndex === -1)) {
-        const annotationContent = extractWithinBrackets(inputText, nextSquareBracketIndex, '[', ']');
+    if (
+        nextSquareBracketIndex !== -1 &&
+        (nextSquareBracketIndex < currentLineEndIndex ||
+            currentLineEndIndex === -1) &&
+        (nextSquareBracketIndex < nextLessThanIndex ||
+            nextLessThanIndex === -1) &&
+        (nextSquareBracketIndex < nextOpenParenthesisIndex ||
+            nextOpenParenthesisIndex === -1)
+    ) {
+        const annotationContent = extractWithinBrackets(
+            inputText,
+            nextSquareBracketIndex,
+            "[",
+            "]"
+        );
         annotation = annotationContent.content;
 
-        if (annotation.includes('<')) {
-            nextLessThanIndex = inputText.indexOf('<', annotationContent.endIndex);
+        if (annotation.includes("<")) {
+            nextLessThanIndex = inputText.indexOf(
+                "<",
+                annotationContent.endIndex
+            );
         }
-        if (annotation.includes('(')) {
-            nextOpenParenthesisIndex = inputText.indexOf('(', annotationContent.endIndex);
+        if (annotation.includes("(")) {
+            nextOpenParenthesisIndex = inputText.indexOf(
+                "(",
+                annotationContent.endIndex
+            );
         }
     }
 
-    if (nextLessThanIndex !== -1
-        && (nextLessThanIndex < currentLineEndIndex || currentLineEndIndex === -1)
-        && (nextLessThanIndex < nextOpenParenthesisIndex || nextOpenParenthesisIndex === -1)) {
-        const genericContent = extractWithinBrackets(inputText, nextLessThanIndex, '<', '>');
+    if (
+        nextLessThanIndex !== -1 &&
+        (nextLessThanIndex < currentLineEndIndex ||
+            currentLineEndIndex === -1) &&
+        (nextLessThanIndex < nextOpenParenthesisIndex ||
+            nextOpenParenthesisIndex === -1)
+    ) {
+        const genericContent = extractWithinBrackets(
+            inputText,
+            nextLessThanIndex,
+            "<",
+            ">"
+        );
         generic = genericContent.content;
 
-        if (generic.includes('(')) {
-            nextOpenParenthesisIndex = inputText.indexOf('(', genericContent.endIndex);
+        if (generic.includes("(")) {
+            nextOpenParenthesisIndex = inputText.indexOf(
+                "(",
+                genericContent.endIndex
+            );
         }
     }
 
-    if (nextOpenParenthesisIndex !== -1
-        && (nextOpenParenthesisIndex < currentLineEndIndex || currentLineEndIndex === -1)) {
-        const argumentsContent = extractWithinBrackets(inputText, nextOpenParenthesisIndex, '(', ')');
+    if (
+        nextOpenParenthesisIndex !== -1 &&
+        (nextOpenParenthesisIndex < currentLineEndIndex ||
+            currentLineEndIndex === -1)
+    ) {
+        const argumentsContent = extractWithinBrackets(
+            inputText,
+            nextOpenParenthesisIndex,
+            "(",
+            ")"
+        );
         arguments = argumentsContent.content;
     }
 
@@ -80,7 +174,6 @@ function extractExpressionDetails(inputText, currentIndex, currentLineEndIndex) 
 }
 
 function parse(inputText, topLevelElements = TOP_LEVEL_ELEMENTS) {
-
     // There are 4 fundamental structures to parse:
     // type: block
     //   The general syntax of blocks is:
@@ -118,7 +211,7 @@ function parse(inputText, topLevelElements = TOP_LEVEL_ELEMENTS) {
     //   POSTKEYWORD is always a single word, or some words. The list of valid keywords is known and fixed.
     //   POST is any text, up to the end of the line.
     // Comments: Line comments are supported. Any line beginning with '//' is considered a comment. The element starting after one or more comments receives the comment, so it is available for parsing.
-    
+
     // The parser works like this:
     //   We have a comment buffer, which is [] by default.
     //   We have a context (stack), which is created from the top-level elements by default
@@ -186,48 +279,72 @@ function parse(inputText, topLevelElements = TOP_LEVEL_ELEMENTS) {
     let results = [];
 
     while (currentIndex < inputText.length) {
-        const currentLineEndIndex = inputText.indexOf('\n', currentIndex);
+        const currentLineEndIndex = inputText.indexOf("\n", currentIndex);
         if (currentIndex === currentLineEndIndex) {
             // Empty line
             currentIndex++;
             commentBuffer = [];
             continue;
         }
-        const currentLine = inputText.substring(currentIndex, currentLineEndIndex === -1 ? inputText.length : currentLineEndIndex).trim();
+        const currentLine = inputText
+            .substring(
+                currentIndex,
+                currentLineEndIndex === -1
+                    ? inputText.length
+                    : currentLineEndIndex
+            )
+            .trim();
 
         // Check for comments
-        if (currentLine.startsWith('//')) {
+        if (currentLine.startsWith("//")) {
             commentBuffer.push(currentLine.substring(2).trim());
             // Move to the next line
             currentIndex = currentLineEndIndex + 1;
             continue;
         }
 
-        const item = { type: 'Unknown' };
+        const item = { type: "Unknown" };
 
         // Try to match a top level element
         let matched = false;
 
-        for(let topLevelElement of topLevelElements) {
-        
-            const isThisElement = new RegExp(`^\\s*${topLevelElement.keyword}\\s*`).test(currentLine);
+        for (let topLevelElement of topLevelElements) {
+            const isThisElement = new RegExp(
+                `^\\s*${topLevelElement.keyword}\\s*`
+            ).test(currentLine);
             if (!matched && isThisElement) {
-
-                if (topLevelElement.type === 'block') {
+                if (topLevelElement.type === "block") {
                     // It is a block
                     // Let's first find where it starts (first '{' character)
-                    const blockStartIndex = inputText.indexOf('{', currentIndex);
+                    const blockStartIndex = inputText.indexOf(
+                        "{",
+                        currentIndex
+                    );
                     if (blockStartIndex === -1) {
                         // No block start found
                         break;
-                    } 
-                    const blockContent = extractWithinBrackets(inputText, blockStartIndex, '{', '}');
+                    }
+                    const blockContent = extractWithinBrackets(
+                        inputText,
+                        blockStartIndex,
+                        "{",
+                        "}"
+                    );
 
                     // We should now find the name from the current line
-                    const nameMatch = currentLine.match(new RegExp(`\\s*${topLevelElement.keyword}\\s*([a-zA-Z0-9_\\-#\\. /:]+)(?:[\\[\\(<{])`));
+                    const nameMatch = currentLine.match(
+                        new RegExp(
+                            `\\s*${topLevelElement.keyword}\\s*([a-zA-Z0-9_\\-#\\. /:]+)(?:[\\[\\(<{])`
+                        )
+                    );
                     const name = nameMatch ? nameMatch[1] : null;
 
-                    let { annotation, generic, arguments } = extractExpressionDetails(inputText, currentIndex, currentLineEndIndex);
+                    let { annotation, generic, arguments } =
+                        extractExpressionDetails(
+                            inputText,
+                            currentIndex,
+                            currentLineEndIndex
+                        );
 
                     // Now we parse the content
                     const parsedBlockContent = parse(
@@ -242,7 +359,7 @@ function parse(inputText, topLevelElements = TOP_LEVEL_ELEMENTS) {
                     item.arguments = arguments.trim();
                     item.content = parsedBlockContent;
 
-                    item.comment = commentBuffer.join('\n');
+                    item.comment = commentBuffer.join("\n");
                     commentBuffer = [];
 
                     // Add item to results
@@ -251,16 +368,18 @@ function parse(inputText, topLevelElements = TOP_LEVEL_ELEMENTS) {
 
                     // Now we move to the line after the block
                     currentIndex = blockContent.endIndex + 1;
-                } else if (topLevelElement.type === 'property') {
+                } else if (topLevelElement.type === "property") {
                     item.type = topLevelElement.name;
-                    item.value = currentLine.substring(topLevelElement.keyword.length).trim();
+                    item.value = currentLine
+                        .substring(topLevelElement.keyword.length)
+                        .trim();
 
-                    item.comment = commentBuffer.join('\n');
+                    item.comment = commentBuffer.join("\n");
                     commentBuffer = [];
 
                     results.push(item);
                     matched = true;
-                    
+
                     // Move to next line
                     if (currentLineEndIndex === -1) {
                         // End of input
@@ -268,19 +387,35 @@ function parse(inputText, topLevelElements = TOP_LEVEL_ELEMENTS) {
                     } else {
                         currentIndex = currentLineEndIndex + 1;
                     }
-                } else if (topLevelElement.type === 'declaration') {
+                } else if (topLevelElement.type === "declaration") {
                     // We should now find the name from the current line
-                    const nameMatch = currentLine.match(new RegExp(`\\s*${topLevelElement.keyword}\\s*([a-zA-Z0-9_\\-#\\. /:]+)(?:[\\[\\(<{])`));
+                    const nameMatch = currentLine.match(
+                        new RegExp(
+                            `\\s*${topLevelElement.keyword}\\s*([a-zA-Z0-9_\\-#\\. /:]+)(?:[\\[\\(<{])`
+                        )
+                    );
                     const name = nameMatch ? nameMatch[1] : null;
 
-                    let { annotation, generic, arguments } = extractExpressionDetails(inputText, currentIndex, currentLineEndIndex);
+                    let { annotation, generic, arguments } =
+                        extractExpressionDetails(
+                            inputText,
+                            currentIndex,
+                            currentLineEndIndex
+                        );
 
                     if (topLevelElement.postkeyword) {
                         // See if it has a postkeyword
-                        const postkeywordMatch = currentLine.match(new RegExp(`\\s*${topLevelElement.postkeyword}\\s+`));
+                        const postkeywordMatch = currentLine.match(
+                            new RegExp(`\\s*${topLevelElement.postkeyword}\\s+`)
+                        );
                         item.postkeyword = topLevelElement.postkeyword;
                         if (postkeywordMatch) {
-                            item.post = currentLine.substring(postkeywordMatch.index + postkeywordMatch[0].length).trim();
+                            item.post = currentLine
+                                .substring(
+                                    postkeywordMatch.index +
+                                        postkeywordMatch[0].length
+                                )
+                                .trim();
                         }
                     }
 
@@ -290,7 +425,7 @@ function parse(inputText, topLevelElements = TOP_LEVEL_ELEMENTS) {
                     item.generic = generic.trim();
                     item.arguments = arguments.trim();
 
-                    item.comment = commentBuffer.join('\n');
+                    item.comment = commentBuffer.join("\n");
                     commentBuffer = [];
 
                     results.push(item);
@@ -303,23 +438,41 @@ function parse(inputText, topLevelElements = TOP_LEVEL_ELEMENTS) {
                     } else {
                         currentIndex = currentLineEndIndex + 1;
                     }
-                } else if (topLevelElement.type === 'typed-declaration') {
+                } else if (topLevelElement.type === "typed-declaration") {
                     // We should now find the name from the current line
-                    const nameMatch = currentLine.match(new RegExp(`\\s*${topLevelElement.keyword}\\s*([a-zA-Z0-9_\\-#\\. /:]+)(?:[\\[\\(<{])?\\s*:\\s*`));
+                    const nameMatch = currentLine.match(
+                        new RegExp(
+                            `\\s*${topLevelElement.keyword}\\s*([a-zA-Z0-9_\\-#\\. /:]+)(?:[\\[\\(<{])?\\s*:\\s*`
+                        )
+                    );
                     const name = nameMatch ? nameMatch[1] : null;
 
                     // Now we should find the type declaration
-                    const typeMatch = currentLine.match(/\s*:\s*([\w]+)(?:\s+)?/);
+                    const typeMatch = currentLine.match(
+                        /\s*:\s*([\w]+)(?:\s+)?/
+                    );
                     const type = typeMatch ? typeMatch[1] : null;
 
-                    let { annotation, generic, arguments } = extractExpressionDetails(inputText, currentIndex, currentLineEndIndex);
+                    let { annotation, generic, arguments } =
+                        extractExpressionDetails(
+                            inputText,
+                            currentIndex,
+                            currentLineEndIndex
+                        );
 
                     if (topLevelElement.poskeyword) {
                         // See if it has a postkeyword
-                        const postkeywordMatch = currentLine.match(new RegExp(`\\s*${topLevelElement.postkeyword}\\s+`));
+                        const postkeywordMatch = currentLine.match(
+                            new RegExp(`\\s*${topLevelElement.postkeyword}\\s+`)
+                        );
                         item.postkeyword = topLevelElement.postkeyword;
                         if (postkeywordMatch) {
-                            item.post = currentLine.substring(postkeywordMatch.index + postkeywordMatch[0].length).trim();
+                            item.post = currentLine
+                                .substring(
+                                    postkeywordMatch.index +
+                                        postkeywordMatch[0].length
+                                )
+                                .trim();
                         }
                     }
 
@@ -330,7 +483,7 @@ function parse(inputText, topLevelElements = TOP_LEVEL_ELEMENTS) {
                     item.generic = generic.trim();
                     item.arguments = arguments.trim();
 
-                    item.comment = commentBuffer.join('\n');
+                    item.comment = commentBuffer.join("\n");
                     commentBuffer = [];
 
                     results.push(item);
@@ -344,11 +497,9 @@ function parse(inputText, topLevelElements = TOP_LEVEL_ELEMENTS) {
                         currentIndex = currentLineEndIndex + 1;
                     }
                 } else {
-                    
-
                     item.type = topLevelElement.name;
 
-                    item.comment = commentBuffer.join('\n');
+                    item.comment = commentBuffer.join("\n");
                     commentBuffer = [];
 
                     results.push(item);
@@ -363,7 +514,6 @@ function parse(inputText, topLevelElements = TOP_LEVEL_ELEMENTS) {
                     }
                 }
             }
-
         }
 
         if (!matched) {
@@ -375,18 +525,16 @@ function parse(inputText, topLevelElements = TOP_LEVEL_ELEMENTS) {
                 currentIndex = currentLineEndIndex + 1;
             }
         }
-        
+
         if (currentIndex === -1) {
             // End of input
             break;
         }
-
     }
 
     return results;
-
 }
 
 module.exports = {
-    parse
+    parse,
 };

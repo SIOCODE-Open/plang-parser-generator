@@ -1,0 +1,24 @@
+dto Team {
+    +id: String
+    +name: String
+    +description: String
+}
+
+dto NewTeam {
+    +name: String
+    +description: String
+}
+
+dto ListTeamsResponse {
+    +data: List<Team>
+    +total: Integer
+}
+
+dto Empty {
+
+}
+
+service TeamService(/api/v1/teams) {
+    GET / () -> ListTeamsResponse
+    POST / (NewTeam) -> Team
+}

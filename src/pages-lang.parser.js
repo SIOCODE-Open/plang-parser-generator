@@ -402,7 +402,7 @@ function parse(inputText, topLevelElements = TOP_LEVEL_ELEMENTS) {
                     // We should now find the name from the current line
                     const nameMatch = currentLine.match(
                         new RegExp(
-                            `\\s*${topLevelElement.keyword}\\s*([a-zA-Z0-9_\\-#\\. ]+)(?:[\\[\\(<{])`
+                            `\\s*${topLevelElement.keyword}\\s*([a-zA-Z0-9_\\-#\\. /:]+)(?:[\\[\\(<{])`
                         )
                     );
                     const name = nameMatch ? nameMatch[1] : null;
@@ -459,7 +459,7 @@ function parse(inputText, topLevelElements = TOP_LEVEL_ELEMENTS) {
                     // We should now find the name from the current line
                     const nameMatch = currentLine.match(
                         new RegExp(
-                            `\\s*${topLevelElement.keyword}\\s*([a-zA-Z0-9_\\-#\\. ]+)(?:[\\[\\(<{])`
+                            `\\s*${topLevelElement.keyword}\\s*([a-zA-Z0-9_\\-#\\. /:]+)(?:[\\[\\(<{])`
                         )
                     );
                     const name = nameMatch ? nameMatch[1] : null;
@@ -510,7 +510,7 @@ function parse(inputText, topLevelElements = TOP_LEVEL_ELEMENTS) {
                     // We should now find the name from the current line
                     const nameMatch = currentLine.match(
                         new RegExp(
-                            `\\s*${topLevelElement.keyword}\\s*([a-zA-Z0-9_\\-#\\. ]+)(?:[\\[\\(<{])?\\s*:\\s*`
+                            `\\s*${topLevelElement.keyword}\\s*([a-zA-Z0-9_\\-#\\. /:]+)(?:[\\[\\(<{])?\\s*:\\s*`
                         )
                     );
                     const name = nameMatch ? nameMatch[1] : null;
